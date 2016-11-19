@@ -1,4 +1,3 @@
-<script>
 	$(document).ready(function(){
 			// get canvas context
 			var cvs = $("canvas").get(0);
@@ -231,5 +230,3 @@
 
 			init();
 		});
-
-</script>
