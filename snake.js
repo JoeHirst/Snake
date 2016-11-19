@@ -1,13 +1,17 @@
-		$(document).ready(function(){
+<script>
+	$(document).ready(function(){
 			// get canvas context
 			var cvs = $("canvas").get(0);
 			var ctx = cvs.getContext("2d");
 			// declare variables
 			var food;
 			var snake;
-			var grid = 20;
+			var grid = 20	;
 			var h = cvs.height;
 			var w = cvs.width;
+			var appleFrame;
+			var appleSize = grid;
+			var apple = new Image();
 
 			//Makes the canvas look sharp
 			cvs.width *= 2;
@@ -17,6 +21,10 @@
 			ctx.scale(2, 2);
 
 			function init(){
+
+				appleFrame = appleSize +=2;
+
+				apple.src = "food.png";
 
 				keyPress();		
 
@@ -65,7 +73,7 @@
 			function drawSnake(){
 				ctx.fillStyle = "green";
 				ctx.strokeStyle = "black";
-				ctx.lineWidth = 1;
+				ctx.lineWidth = 0.5;
 				// draw square on snakes head
 				ctx.beginPath();
 				ctx.rect(snake.x, snake.y, grid, grid);					
@@ -155,21 +163,23 @@
 				}
 			}
 
-			window.addFood = addFood;
-
 			// draws the visible food
 			function drawFood(){
 				ctx.fillStyle = "salmon";
 				ctx.strokeStyle = "black";
 				//Draws at the foods location
 				for (var i = 0; i < food.length; i++) {
-					ctx.beginPath();
-					ctx.rect(food[i].x, food[i].y, grid, grid);
-					ctx.stroke();
-					ctx.fill();
+					ctx.drawImage(apple, food[i].x, food[i].y, appleSize, appleSize);
 				}
-			}
+				// makes the apple pulsatee
+				if (appleSize >= appleFrame) {
+					
+					appleSize = grid;
+				}
 
+				appleSize ++;
+			}
+			// snake movement
 			function moveSnake(){
 
 				if(snake.direction == "right"){
@@ -198,7 +208,7 @@
 					reset();
 				}			
 			}
-			// detects keys pressed
+			// detects keys pressed and sets direction
 			function keyPress(){
 
 				$(document).keydown(function(e){
@@ -219,6 +229,7 @@
 				})
 			}
 
-
 			init();
 		});
+
+</script>
