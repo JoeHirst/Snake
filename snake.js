@@ -1,16 +1,17 @@
-	$(document).ready(function(){
+$(document).ready(function(){
 			// get canvas context
 			var cvs = $("canvas").get(0);
 			var ctx = cvs.getContext("2d");
 			// declare variables
 			var food;
 			var snake;
-			var grid = 20	;
+			var grid = 20;
 			var h = cvs.height;
 			var w = cvs.width;
-			var appleFrame;
 			var appleSize = grid;
 			var apple = new Image();
+			var hue = 0;
+			var moveTimer = 0;
 
 			//Makes the canvas look sharp
 			cvs.width *= 2;
@@ -29,7 +30,7 @@
 
 				reset();
 
-				setInterval(draw, 1000 / 10);
+				requestAnimationFrame(draw);
 			}
 
 			function reset(){
@@ -48,12 +49,31 @@
 			}
 
 			function draw() {
-				// calls functions and clears squares
-				updateSnake();
-				moveSnake();
+				// calls at 15 fps
+				if (moveTimer > 4) {
+					updateSnake();
+					moveSnake();
+					moveTimer = 0;
+				} else {
+					moveTimer++;
+				}
+
 				ctx.clearRect(0, 0, w, h);
 				drawFood();
+
+				// Change snakes colour with score
+				if (snake.score > 3) {
+					hue += snake.score;
+	 				ctx.filter = "hue-rotate(" + hue + "deg)";
+
+	 				if (hue > 360) {
+	 					hue = 0;
+	 				}
+				}
+
 				drawSnake();
+
+				ctx.filter = "none";
 
 				// stores score as a string
 				var snakeText = snake.score.toString();
@@ -66,26 +86,28 @@
 				ctx.textBaseline= "top";
 				ctx.font = "20px monospace";
 				ctx.fillText("Score: " + snakeText, 5, 0);
+
+				requestAnimationFrame(draw);
 			}
 
 			// draw visible snake
 			function drawSnake(){
 				ctx.fillStyle = "green";
-				ctx.strokeStyle = "black";
-				ctx.lineWidth = 0.5;
+				ctx.strokeStyle = "darkgreen";
+				ctx.lineWidth = 2;
+
 				// draw square on snakes head
 				ctx.beginPath();
 				ctx.rect(snake.x, snake.y, grid, grid);					
-				ctx.stroke();
-				ctx.fill();
+
+
 				// draws a square on all of the snakes body piecees
 				for (var i = 0; i < snake.pieces.length; i++) {
-					ctx.beginPath();
 					ctx.rect(snake.pieces[i].x, snake.pieces[i].y, grid, grid);
-					ctx.stroke();
-					ctx.fill();
 				}
 
+				ctx.stroke();
+				ctx.fill();
 			}
 
 			function updateSnake(){
@@ -164,19 +186,19 @@
 
 			// draws the visible food
 			function drawFood(){
-				ctx.fillStyle = "salmon";
-				ctx.strokeStyle = "black";
+
+				// makes the food smoothy change size
+				var appleGrid = grid - 2;
+				var foodSize = appleGrid - (Math.sin(appleSize) * 5); // makes the apple change size
+				var position = (appleGrid - foodSize) / 2; // makes position of the apple the centre of a grid square
+
 				//Draws at the foods location
 				for (var i = 0; i < food.length; i++) {
-					ctx.drawImage(apple, food[i].x, food[i].y, appleSize, appleSize);
-				}
-				// makes the apple pulsatee
-				if (appleSize >= appleFrame) {
-					
-					appleSize = grid;
+					ctx.drawImage(apple, food[i].x + position, food[i].y + position, foodSize, foodSize);
 				}
 
-				appleSize ++;
+
+				appleSize += 0.1;
 			}
 			// snake movement
 			function moveSnake(){
