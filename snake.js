@@ -1,4 +1,4 @@
-$(document).ready(function(){
+	$(document).ready(function(){
 			// get canvas context
 			var cvs = $("canvas").get(0);
 			var ctx = cvs.getContext("2d");
@@ -21,7 +21,7 @@ $(document).ready(function(){
 			cvs.style.width = cvs.width / 2;
 			cvs.style.height = cvs.height / 2;
 			ctx.scale(2, 2);
-			document.getElementById("canvas").style.background = 'black';
+			$('canvas').css('background-color', 'black');
 
 			function init(){
 
@@ -107,7 +107,7 @@ $(document).ready(function(){
 				// draw square on snakes head
 				ctx.beginPath();
 				ctx.rect(snake.x, snake.y, grid, grid);
-
+				
 				// draws a square on all of the snakes body piecees
 				for (var i = 0; i < snake.pieces.length; i++) {
 					ctx.rect(snake.pieces[i].x, snake.pieces[i].y, grid, grid);
