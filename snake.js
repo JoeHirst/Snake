@@ -202,6 +202,12 @@
 							valid = false;
 						}
 					}
+					// stops apples from being put on top of bananas
+					for (var i = 0; i < food.length; i++) {
+						if(food.x == banana[i].x && food.y == banana[i].y){
+							valid = false;
+						}
+					}
 					// add new food to array
 					if (valid) {
 						food.push(newFood);
