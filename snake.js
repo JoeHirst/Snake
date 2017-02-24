@@ -115,6 +115,55 @@
 
 				ctx.stroke();
 				ctx.fill();
+
+				ctx.filter = "none";
+
+				ctx.beginPath();
+				ctx.fillStyle = '#FFF';
+				
+				// draw snakes eyes
+				var eyeSize = grid / 4;
+
+				if (snake.direction == "up") {
+					ctx.arc(snake.x + eyeSize, snake.y + eyeSize, eyeSize, 0, Math.PI * 2);
+					ctx.arc(snake.x + (grid - eyeSize), snake.y + eyeSize, eyeSize, 0, Math.PI * 2);
+				}
+				if (snake.direction == "left") {
+					ctx.arc(snake.x + eyeSize, snake.y + eyeSize, eyeSize, 0, Math.PI * 2);
+					ctx.arc(snake.x + eyeSize, snake.y + (grid - eyeSize), eyeSize, 0, Math.PI * 2);
+				}
+				if (snake.direction == "right") {
+					ctx.arc(snake.x + (grid - eyeSize), snake.y + eyeSize, eyeSize, 0, Math.PI * 2);
+					ctx.arc(snake.x + (grid - eyeSize), snake.y + (grid - eyeSize), eyeSize, 0, Math.PI * 2);
+				}
+				if (snake.direction == "down") {
+					ctx.arc(snake.x + eyeSize, snake.y + (grid - eyeSize), eyeSize, 0, Math.PI * 2);
+					ctx.arc(snake.x + (grid - eyeSize), snake.y + (grid - eyeSize), eyeSize, 0, Math.PI * 2);
+				}
+
+				ctx.fill();
+				ctx.beginPath();
+				ctx.fillStyle = '#000';
+
+				var pupilSize = eyeSize / 2;
+
+				if (snake.direction == "up") {
+					ctx.arc(snake.x + eyeSize, snake.y + eyeSize, pupilSize, 0, Math.PI * 2);
+					ctx.arc(snake.x + (grid - eyeSize), snake.y + eyeSize, pupilSize, 0, Math.PI * 2);
+				}
+				if (snake.direction == "left") {
+					ctx.arc(snake.x + eyeSize, snake.y + eyeSize, pupilSize, 0, Math.PI * 2);
+					ctx.arc(snake.x + eyeSize, snake.y + (grid - eyeSize), pupilSize, 0, Math.PI * 2);
+				}
+				if (snake.direction == "right") {
+					ctx.arc(snake.x + (grid - eyeSize), snake.y + eyeSize, pupilSize, 0, Math.PI * 2);
+					ctx.arc(snake.x + (grid - eyeSize), snake.y + (grid - eyeSize), pupilSize, 0, Math.PI * 2);
+				}
+				if (snake.direction == "down") {
+					ctx.arc(snake.x + eyeSize, snake.y + (grid - eyeSize), pupilSize, 0, Math.PI * 2);
+					ctx.arc(snake.x + (grid - eyeSize), snake.y + (grid - eyeSize), pupilSize, 0, Math.PI * 2);
+				}
+				ctx.fill();
 			}
 
 			function updateSnake(){
